@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    .btn {
+        color: black;
+        border-radius: 5px;
+        border: black solid 2px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        background-color: azure;
+        font-size: medium;
+        font-weight: bold;
+    } 
+    .btn:hover{
+        background-color: aqua;
+    }
+
+    </style>
+    <title>Verification Email</title>
+</head>
+<body>
+    <h1>Welcome {{username}}</h1>
+    <h3>Click link below to verify your account</h3>
+    <a href={{redirect}}>
+        <button type="button" class="btn">Verify your account</button>
+    </a>
+    <h4 style="font-weight: 100;">Created by afif saifuddin</h4>
+</body>
+</html>

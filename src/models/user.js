@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   user.init(
     {
-      username: DataTypes.STRING,
-      email: DataTypes.STRING,
-      phone: DataTypes.STRING,
+      username: { type: DataTypes.STRING, unique: true },
+      email: { type: DataTypes.STRING, unique: true },
+      phone: { type: DataTypes.STRING, unique: true },
       password: DataTypes.STRING,
       isVerified: {
         defaultValue: false,
@@ -29,15 +29,5 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "user",
     }
   );
-  user.prototype.hashPassword = async function (password) {
-    const salt = 10;
-    return await bcrypt.hash(password, salt);
-  };
-  user.prototype.verifyPassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
-  };
-  // user.prototype.verifyUsername = async function (username) {
-  //   return await bcrypt.compare(username, this.username);
-  // };
   return user;
 };

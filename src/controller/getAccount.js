@@ -17,7 +17,18 @@ const getAccount = {
     } catch (err) {
       return res.status(500).json({
         message: "get data failed",
-        error: err.message,
+      });
+    }
+  },
+  getAll: async (req, res) => {
+    try {
+      const result = await user.findAll();
+      res.status(200).json({
+        data: result,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: "get data user failed",
       });
     }
   },
