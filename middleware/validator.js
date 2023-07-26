@@ -43,6 +43,15 @@ const emailvalidator = [
   body("oldemail").isEmail().withMessage(" is not email format"),
   body("newemail").isEmail().withMessage(" is not email format"),
 ];
+
+const createblogvalidator = [
+  body("title")
+    .isLength({ max: 150 })
+    .withMessage("title maximal size 150 character"),
+  body("content")
+    .isLength({ max: 500 })
+    .withMessage("content maximal sixe 500 character"),
+];
 const resultvalidation = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty() == false) {
@@ -60,4 +69,5 @@ module.exports = {
   phonevalidator,
   passwordvalidator,
   emailvalidator,
+  createblogvalidator,
 };

@@ -1,6 +1,7 @@
 const db = require("../models");
 const user = db.user;
 const blog = db.blog;
+const country = db.country;
 const category = db.category;
 
 const createblogController = {
@@ -22,16 +23,12 @@ const createblogController = {
           },
           { transaction: t }
         );
-        return res.status(200).json({
-          success: "create blog success",
-          data: createarticle,
-        });
+        return res
+          .status(200)
+          .json({ success: "Success", data: createarticle });
       });
     } catch (err) {
-      return res.status(500).json({
-        error: "create blog failed",
-        status: err.message,
-      });
+      return res.status(500).json({ error: "Failed" });
     }
   },
   getAllblog: async (req, res) => {
@@ -43,38 +40,19 @@ const createblogController = {
       const offset = (pagenumber - 1) * pagesize;
       const sortBy = req.query.sortBy || "DESC";
       const data = await blog.findAll({
-        attributes: [
-          "id",
-          "title",
-          "content",
-          "keyword",
-          "createdAt",
-          "updatedAt",
-        ],
+        attributes: { exclude: ["userId", "categoryId", "countryId"] },
         include: [
-          {
-            model: category,
-            where: whereCategory,
-            attributes: ["name"],
-          },
-          {
-            model: user,
-            attributes: ["id", "username", "email"],
-          },
+          { model: country, attributes: ["id", "name"] },
+          { model: category, attributes: ["id", "name"] },
+          { model: user, attributes: ["id", "username", "email"] },
         ],
         limit: pagesize,
         offset: offset,
         order: [["createdAt", sortBy]],
       });
-      // console.log(data);
-      return res.status(200).json({
-        succes: "Get Blog Success",
-        data,
-      });
+      return res.status(200).json({ succes: "Success", data });
     } catch (err) {
-      res.status(500).json({
-        error: "get blog failed",
-      });
+      res.status(500).json({ error: "Failed" });
     }
   },
 };

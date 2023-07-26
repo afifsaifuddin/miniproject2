@@ -7,6 +7,7 @@ const {
   usernamevalidator,
   passwordvalidator,
   emailvalidator,
+  createblogvalidator,
 } = require("../../middleware/validator");
 const {
   getAccount,
@@ -67,6 +68,8 @@ router.post(
   "/create-blog",
   verifyToken,
   multerUpload.single("imgBlog"),
+  createblogvalidator,
+  resultvalidation,
   createBlog.createBlog
 );
 router.post("/create-category", createCategory.inputCategory);
@@ -74,7 +77,7 @@ router.get("/get-allcategory", createCategory.getAllCategory);
 router.post("/create-country", createCountry.createCountry);
 router.get("/get-allcountry", createCountry.getAllcountry);
 router.get("/get-allblog", createBlog.getAllblog);
-router.post("/forgot-password", passwordController.forgotPassword);
+router.put("/forgot-password", passwordController.forgotPassword);
 router.patch(
   "/reset-password",
   verifyToken,
