@@ -6,6 +6,7 @@ const fs = require("fs").promises;
 const handlebars = require("handlebars");
 const path = require("path");
 const transporter = require("../../helpers/transporter");
+const { Console } = require("console");
 
 const sendEmail = async (result) => {
   let payload = {
@@ -84,9 +85,12 @@ const authController = {
       const { password } = req.body;
       const checkLogin = await cekLog(req);
       if (!checkLogin) {
-        return res.status(404).json({
-          message: "Email,username or phone not found",
-        });
+        return res
+          .status(404)
+          .json({ message: "Email,username or phone not found" });
+      }
+      if (!checkLogin.isVerified) {
+        return res.status(500).json({ message: "account not verified" });
       }
       const isValid = await bcrypt.compare(password, checkLogin.password);
       if (!isValid) return res.status(404).json({ message: "wrong pass" });
@@ -97,9 +101,7 @@ const authController = {
         phone: checkLogin.phone,
         isVerified: checkLogin.isVerified,
       };
-      const token = jwt.sign(payload, process.env.JWT_KEY, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
       return res.status(200).json({ message: "success", data: token });
     } catch (err) {
       return res.status(500).json({ message: "failed", error: err.message });
@@ -109,6 +111,7 @@ const authController = {
     try {
       const { id } = req.user;
       const coba = await user.findByPk(id);
+      console.log(coba);
       if (coba.isVerified)
         return res.status(500).json({ message: "token has been used" });
       const updatestatus = await user.update(

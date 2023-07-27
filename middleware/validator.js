@@ -61,7 +61,6 @@ const resultvalidation = (req, res, next) => {
   }
   next();
 };
-
 module.exports = {
   registervalidator,
   resultvalidation,

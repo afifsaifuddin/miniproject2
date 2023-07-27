@@ -11,7 +11,7 @@ const db = require("./models");
 
 const { getRouter } = require("./router");
 
-app.use("/image-blog", express.static(path.resolve(__dirname, "../public")));
+app.use("/image-blog", express.static(path.resolve(__dirname, "../")));
 
 app.use(express.json());
 app.use("/miniproject", getRouter);
